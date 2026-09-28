@@ -13,7 +13,7 @@ text-align:center;
 }
 #sub{
 color:white;
-text-shadow: 2px 2px black, -2px -2px black;
+text-shadow: 1px 1px black, -1px -1px black;
 font-size:18px;
 }
 </style>
