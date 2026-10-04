@@ -13,7 +13,7 @@ text-align:center;
 }
 #sub{
 color:white;
-text-shadow: 1px 1px black, -1px -1px black;
+text-shadow: 2px 2px 2px black, -2px -2px -2px black;
 font-size:18px;
 }
 </style>
@@ -26,7 +26,8 @@ font-size:18px;
 st.components.v1.html(tulisan_html,height=200)
 
 if "kumpulan" not in st.session_state:
-    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False}
+    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False}
 
 #=============
 
@@ -69,6 +70,22 @@ def modul3():
     </iframe>
     '''
     st.components.v1.html(tulisan_html1,height=1500)
+    
+def modul4():
+    menu = st.tabs(['Modul','Latihan'])
+    with menu[0]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/pertemuan4.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan4.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        
 #==============
 
 if st.session_state["kumpulan"]["kover"]:
@@ -81,22 +98,33 @@ if st.session_state["kumpulan"]["pertemuan2"]:
     modul2()
 if st.session_state["kumpulan"]["pertemuan3"]:
     modul3()
+if st.session_state["kumpulan"]["pertemuan4"]:
+    modul4()
 
 #==============
 
 
 if st.sidebar.button("Latar"):
-    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False}
+    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Test Diagnosa"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False}
+    st.session_state["kumpulan"] = {"kover":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 1"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False}
+    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 2"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False}
+    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
+                                    "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 3"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True}
+    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
+                                    "pertemuan4":False}
+    st.rerun()
+if st.sidebar.button("Pertemuan 4"):
+    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":True}
     st.rerun()
