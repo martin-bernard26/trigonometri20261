@@ -26,7 +26,7 @@ font-size:18px;
 st.components.v1.html(tulisan_html,height=200)
 
 if "kumpulan" not in st.session_state:
-    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
                                     "pertemuan4":False}
 
 #=============
@@ -37,6 +37,27 @@ def latar():
     </iframe>
     '''
     st.components.v1.html(tulisan_html1,height=1500)
+def rancangan():
+    menu = st.tabs(['RPS','Referensi'])
+    with menu[0]:
+        tulisan_html1='''
+    <iframe src="https://drive.google.com/file/d/1of6dLByYZBM7IQS9k1LnVMzy3GCWcF6B/preview" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        with st.expander("Trigonometry version 2"):
+            tulisan_html1='''
+    <iframe src="https://drive.google.com/file/d/1Aj0dY_4rdNn4xrIR_phszuWAE5a3yJaI/preview" width="100%" height="1500">
+    </iframe>
+    '''
+            st.components.v1.html(tulisan_html1,height=1500)
+        with st.expander("Mathematic Trigonometry"):
+            tulisan_html1='''
+    <iframe src="https://drive.google.com/file/d/1rZNy0W3jBkWDUVPKRgPb0MZ5c8MpIpTl/preview" width="100%" height="1500">
+    </iframe>
+    '''
+            st.components.v1.html(tulisan_html1,height=1500)
 def testDiagnosa():
     tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/diagnosa.html" width="100%" height="1500">
@@ -65,11 +86,19 @@ def modul2():
     st.components.v1.html(tulisan_html1,height=1500)
 
 def modul3():
-    tulisan_html1='''
+    menu = st.tabs(['Modul','Pengumpulan Tugas Grafik'])
+    with menu[0]:
+        tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/berelasi.html" width="100%" height="1500">
     </iframe>
     '''
-    st.components.v1.html(tulisan_html1,height=1500)
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan3.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
     
 def modul4():
     menu = st.tabs(['Modul','Latihan'])
@@ -90,6 +119,8 @@ def modul4():
 
 if st.session_state["kumpulan"]["kover"]:
     latar()
+if st.session_state["kumpulan"]["referensi"]:
+    rancangan()
 if st.session_state["kumpulan"]["diagnosa"]:
     testDiagnosa()
 if st.session_state["kumpulan"]["pertemuan1"]:
@@ -105,26 +136,30 @@ if st.session_state["kumpulan"]["pertemuan4"]:
 
 
 if st.sidebar.button("Latar"):
-    st.session_state["kumpulan"] = {"kover":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False}
+    st.rerun()
+if st.sidebar.button("RPS dan Referensi"):
+    st.session_state["kumpulan"] = {"kover":False,"referensi":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
                                     "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Test Diagnosa"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
                                     "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 1"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
                                     "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 2"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
                                     "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 3"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
                                     "pertemuan4":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 4"):
-    st.session_state["kumpulan"] = {"kover":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
                                     "pertemuan4":True}
     st.rerun()
