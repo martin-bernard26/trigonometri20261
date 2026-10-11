@@ -29,7 +29,7 @@ st.components.v1.html(tulisan_html,height=200)
 
 if "kumpulan" not in st.session_state:
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
 
 #=============
 
@@ -294,6 +294,87 @@ def modul4():
     </iframe>
     '''
         st.components.v1.html(tulisan_html1,height=1500)
+def modul5():
+    menu = st.tabs(['Modul','Diskusi','Soal Tantangan','Latihan'])
+    with menu[0]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/pertemuan5.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/diskusi5.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.markdown('---')
+        st.title('Diskusi Mahasiswa')
+        st.write('Masukan identitas Anda Nama dan NIM')
+        alamat_url = 'https://diskusimatematika-7a30c-default-rtdb.firebaseio.com/soalTrig1.json'
+        with st.form(key='Masukan_mahasiswa1',clear_on_submit=True):
+            nama = st.text_input('Masukan Nama Anda')
+            nim = st.text_input('Masunak NIM Anda')
+            masukan = st.text_area('Masukan')
+            tombol1 = st.form_submit_button('Kirimkan')
+            if tombol1:
+                if nama.strip()=="" or nim.strip()=="" or masukan.strip()=="":
+                    st.error("Identitas Anda belum lengkap")
+                else:
+                    kumpulan={
+                        "nama":nama,
+                        "nim":nim,
+                        "masukan":masukan
+                        }
+                    try:
+                        response = requests.post(alamat_url,json=kumpulan)
+                        if response.status_code==200:
+                            st.success("Data Anda sudah Masuk")
+                        else:
+                            st.error("Data Anda Gagal Masuk")
+                    except Exception as e:
+                        st.error("Terjadi kesalahan di sistem")
+                    
+    with menu[2]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/tantangan5.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.markdown('---')
+        st.title('Form Masukan Mahasiswa')
+        st.write('Silahkan masukan identitas dan aspirasi Anda di bawah ini.')
+        firebase_url = 'https://diskusimatematika-7a30c-default-rtdb.firebaseio.com/identitas.json'
+        with st.form(key='form_masukan',clear_on_submit=True):
+            nama = st.text_input("Nama Lengkap")
+            nim = st.text_input("NIM (Nomor Induk Mahasiswa)")
+            masukan = st.text_area("Masukan/Kritik/Saran")
+            submit_button = st.form_submit_button(label="Kirim Masukan")
+        if submit_button:
+            if nama.strip() == "" or nim.strip() == "" or masukan.strip()=="":
+                st.error("Semua kolom harus diisi")
+            else:
+                payload = {
+                    'nama':nama,
+                    'nim':nim,
+                    'masukan':masukan
+                }
+                try:
+                    response = requests.post(firebase_url,json=payload)
+                    if response.status_code == 200:
+                        st.success("Terima kasuh!")
+                    else:
+                        st.error("Gagal menyimpan data")
+                        st.write(response.text)
+                except Exception as e:
+                    st.error(f"terjadi kesalahan koneksi: {e}")
+                        
+    with menu[3]:
+        tulisan_html1='''
+    <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan5.html" width="100%" height="1500">
+    </iframe>
+    '''
+        st.components.v1.html(tulisan_html1,height=1500)
         
 #==============
 
@@ -311,6 +392,8 @@ if st.session_state["kumpulan"]["pertemuan3"]:
     modul3()
 if st.session_state["kumpulan"]["pertemuan4"]:
     modul4()
+if st.session_state["kumpulan"]["pertemuan5"]:
+    modul5()
 if st.session_state["kumpulan"]["diskusian"]:
     diskusi()
 
@@ -319,34 +402,39 @@ if st.session_state["kumpulan"]["diskusian"]:
 
 if st.sidebar.button("Latar"):
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("RPS dan Referensi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Test Diagnosa"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 1"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 2"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 3"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
-                                    "pertemuan4":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 4"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":True,"diskusian":False}
+                                    "pertemuan4":True,"pertemuan5":False,"diskusian":False}
+    st.rerun()
+if st.sidebar.button("Pertemuan 5"):
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False,"pertemuan5":True,"diskusian":False}
     st.rerun()
 st.sidebar.markdown("---")
 if st.sidebar.button("Forum Diskusi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"diskusian":True}
+                                    "pertemuan4":False,"pertemuan5":False,"diskusian":True}
     st.rerun()
+
