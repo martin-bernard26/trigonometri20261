@@ -295,7 +295,7 @@ def modul4():
     '''
         st.components.v1.html(tulisan_html1,height=1500)
 def modul5():
-    menu = st.tabs(['Modul','Diskusi','Soal Tantangan','Latihan'])
+    menu = st.tabs(['Modul','Diskusi','Soal Tantangan','Latihan','Pembahasan'])
     with menu[0]:
         tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/pertemuan5.html" width="100%" height="1500">
@@ -334,6 +334,10 @@ def modul5():
                             st.error("Data Anda Gagal Masuk")
                     except Exception as e:
                         st.error("Terjadi kesalahan di sistem")
+        tekan = st.button("Lihat Pendapat Mahasiswa")
+        if tekan:
+            ambil_data = requests.get(alamat_url)
+            st.write(ambil_data.json())
                     
     with menu[2]:
         tulisan_html1='''
@@ -375,6 +379,55 @@ def modul5():
     </iframe>
     '''
         st.components.v1.html(tulisan_html1,height=1500)
+
+    with menu[4]:
+        st.title("Menyelesaikan Diskusi")
+        st.markdown('---')
+        st.write("Diskusi Nomor 1")
+        st.markdown('---')
+        st.markdown('''
+        ### Buktikan bahwa $\sin{\\theta}\\times{\\cot{\\theta}}=\\cos{\\theta}$
+        #### diketahui bahwa $\cot{\\theta}=\\frac{\\cos{\\theta}}{\\sin{\\theta}}$ kebalikan rumus $\\tan{\\theta}=\\frac{\\sin{\\theta}}{\\cos{\\theta}}$
+        #### Sehingga $\\sin{\\theta}\\times{\\cot{\\theta}}=\\sin{\\theta}\\times{\\frac{\\cos{\\theta}}{\\sin{\\theta}}}=\\cos{\\theta}$
+        ''')
+        st.markdown('---')
+        st.write("Diskusi Nomor 2")
+        st.markdown('---')
+        url_gambar = 'https://res.cloudinary.com/dfkw4ux0e/image/upload/v1791868582/trig1_coasgk.png'
+        st.image(url_gambar, caption="Gambar Segitiga Siku-siku", width=500)
+        st.markdown('''
+        ### Buktikan bahwa $1-\\cos^{2}{\\theta}=\\sin^{2}{\\theta}$
+        #### diketahui bahwa $\\sin{\\theta}=\\frac{a}{c}$
+        #### dan $\\cos{\\theta}=\\frac{b}{c}$
+        ### Proses Pembuktian
+        #### $$1-\\cos^{2}{\\theta}$$
+        #### $$1-(\\frac{b}{c})^{2}$$
+        ### Ubah 1 dengan $1=\\frac{1}{1}$
+        #### $$\\frac{1}{1}-(\\frac{b}{c})^{2}$$
+        #### $$\\frac{1}{1}-\\frac{b^2}{c^2}$$
+        ### Samakan penyebutnya yaitu $c^{2}$
+        #### $$\\frac{1}{1}-\\frac{b^{2}}{c^{2}}=\\frac{c^{2}}{c^{2}}-\\frac{b^{2}}{c^{2}}$$
+        #### $$\\frac{c^{2}}{c^{2}}-\\frac{b^{2}}{c^{2}}=\\frac{c^{2}-b^{2}}{c^2}$$
+        #### $$\\frac{c^{2}-b^{2}}{c^2}=\\frac{a^{2}}{c^{2}}$$ (Pythagoras)
+        #### $$\\frac{a^{2}}{c^{2}}=(\\frac{a}{c})^{2}=\\sin{\\theta}$$
+        ''')
+        st.markdown('---')
+        st.write("Diskusi Nomor 3")
+        st.markdown('---')
+        st.markdown('''
+        ### Buktikan bahwa $\\sec^{2}{\\theta}-\\tan^{2}{\\theta}=1$
+        #### diketahui bahwa $\\sec{\\theta}=\\frac{1}{\\cos{\\theta}}$ (Kebalikan)
+        #### dan $\\tan{\\theta}=\\frac{\\sin^{2}{\\theta}}{\\cos{\\theta}}$
+        ### Proses Pembuktian
+        #### $$\\sec^{2}{\\theta}-\\tan^{2}{\\theta}=?$$
+        #### $$\\sec^{2}{\\theta}-\\tan^{2}{\\theta}=(\\frac{1}{\\cos{\\theta}})^{2}-(\\frac{\\sin{\\theta}}{\\cos{\\theta}})^{2}$$
+        ####  $$(\\frac{1}{\\cos{\\theta}})^{2}-(\\frac{\\sin{\\theta}}{\\cos{\\theta}})^{2}=\\frac{1}{\\cos^{2}{\\theta}}-\\frac{\\sin^{2}{\\theta}}{\\cos^{2}{\\theta}}$$
+        ### Penyebutnya sudah sama yaitu $\\cos^{2}{\\theta}$
+        #### $$\\frac{1}{\\cos^{2}{\\theta}}-\\frac{\\sin^{2}{\\theta}}{\\cos^{2}{\\theta}}=\\frac{1-sin^{\\theta}}{\\cos^{2}{\\theta}}$$
+        ### ingat bahwa $\\sin^{2}{\\theta}+\\cos^{2}{\\theta}=1$ atau $1-\\sin^{2}{\\theta}=cos^{2}{\\theta}$
+        #### $$\\frac{1-sin^{\\theta}}{\\cos^{2}{\\theta}}=\\frac{\\cos^{2}{\\theta}}{\\cos^{2}{\\theta}}=1$$
+        ''')
+        
         
 #==============
 
