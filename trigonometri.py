@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import base64
 
 st.set_page_config(layout="wide")
 
@@ -29,7 +30,7 @@ st.components.v1.html(tulisan_html,height=200)
 
 if "kumpulan" not in st.session_state:
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
 
 #=============
 
@@ -427,8 +428,238 @@ def modul5():
         ### ingat bahwa $\\sin^{2}{\\theta}+\\cos^{2}{\\theta}=1$ atau $1-\\sin^{2}{\\theta}=cos^{2}{\\theta}$
         #### $$\\frac{1-sin^{\\theta}}{\\cos^{2}{\\theta}}=\\frac{\\cos^{2}{\\theta}}{\\cos^{2}{\\theta}}=1$$
         ''')
-        
-        
+
+def modul6():
+    menu = st.tabs(['Modul','Latihan','Tugas HOTS','Pembahasan'])
+    with menu[0]:
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/aturantrig.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan6.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.title("Masukan Pendapat Mahasiswa")
+        st.write("Isi identitas kemudian berikan masukan")
+        firebase_url1 = 'https://diskusimatematika-7a30c-default-rtdb.firebaseio.com/disk6.json'
+        with st.form(key='form_masukan1',clear_on_submit=True):
+            nama = st.text_input("Nama Lengkap",key='nama1')
+            nim = st.text_input("NIM (Nomor Induk Mahasiswa)",key='nim1')
+            masukan = st.text_area("Masukan/Kritik/Saran",key='masukan1')
+            submit_button = st.form_submit_button(label="Kirim Masukan")
+        if submit_button:
+            if nama.strip() == "" or nim.strip() == "" or masukan.strip()=="":
+                st.error("Semua kolom harus diisi")
+            else:
+                payload = {
+                    'nama':nama,
+                    'nim':nim,
+                    'masukan':masukan
+                }
+                try:
+                    response = requests.post(firebase_url1,json=payload)
+                    if response.status_code == 200:
+                        st.success("Terima kasuh!")
+                    else:
+                        st.error("Gagal menyimpan data")
+                        st.write(response.text)
+                except Exception as e:
+                    st.error(f"terjadi kesalahan koneksi: {e}")
+        tekan = st.button("Lihat Pendapat Mahasiswa1")
+        if tekan:
+            ambil_data = requests.get(firebase_url1)
+            st.write(ambil_data.json())
+        st.write("Diskusi Memecahkan Masalah")
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/diskusi6.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[2]:
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/hots6.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.title("Masukan Tugas Mahasiswa")
+        st.write("Isi identitas kemudian berikan masukan")
+        GF_url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdEX0bpBRbnXYAjbVlXuGUkWi8V9K5JWNW1HMgnWJhJBNRjRA/formResponse'
+        with st.form(key='form_masukan2',clear_on_submit=True):
+            nama = st.text_input("Nama Lengkap",key='nama2')
+            nim = st.text_input("NIM (Nomor Induk Mahasiswa)",key='nim2')
+            masukan = st.text_input("tugas berdasarkan alamat link Anda",key='tugas1')
+            submit_button = st.form_submit_button(label="Kirim Masukan")
+        if submit_button:
+            if nama.strip() == "" or nim.strip() == "" or masukan.strip()=="":
+                st.error("Semua kolom harus diisi")
+            else:
+                payload = {
+                    'entry.128394463':nama,
+                    'entry.68797093':nim,
+                    'entry.33243599':masukan
+                }
+                try:
+                    response = requests.post(GF_url,data=payload,timeout=10)
+                    if response.status_code == 200:
+                        st.success("Terima kasuh!")
+                    else:
+                        st.error("Gagal menyimpan data")
+                        st.write(response.text)
+                except Exception as e:
+                    st.error(f"terjadi kesalahan koneksi: {e}")
+    with menu[3]:
+        st.title("GeoGebra 🔗 Firebase Tanpa Kredensial (REST API) 🌍")
+        FIREBASE_DB_URL = "https://diskusimatematika-7a30c-default-rtdb.firebaseio.com"
+        NODE_PATH = "gambar_geogebra"
+ 
+        st.title("📐 GeoGebra + Firebase Gallery")
+        st.caption("Program Studi Pendidikan Matematika — IKIP Siliwangi")
+        st.write(
+    "Buat konstruksi apa saja di applet GeoGebra di sebelah kiri, simpan "
+    "gambarnya ke Firebase, lalu lihat hasilnya muncul di galeri sebelah kanan."
+        )
+ 
+        col_ggb, col_gallery = st.columns([1.3, 1])
+ 
+        # ----------------------------------------------------------------------
+        # Kolom kiri: applet GeoGebra + tombol simpan (semuanya jalan di browser,
+        # mengirim langsung ke Firebase lewat fetch() -- tidak lewat Python).
+        # ----------------------------------------------------------------------
+        with col_ggb:
+            st.subheader("1. Buat Konstruksi")
+            st.caption('Gambar apa saja, lalu isi nama Anda dan klik "Simpan Gambar ke Firebase".')
+ 
+            geogebra_html = f"""
+    <div id="ggb-element"></div>
+    <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <input id="nama-input" type="text" placeholder="Nama Anda"
+             style="flex:1; min-width:160px; padding:9px 11px; border:1px solid #ccc;
+                    border-radius:8px; font-family:sans-serif; font-size:14px;">
+      <button id="save-btn"
+              style="padding:10px 18px; border:none; border-radius:8px; background:#2A4494;
+                     color:#fff; font-weight:600; font-family:sans-serif; font-size:14px; cursor:pointer;">
+        💾 Simpan Gambar ke Firebase
+      </button>
+    </div>
+    <div id="status" style="margin-top:8px; font-family:sans-serif; font-size:13px; color:#555;"></div>
+ 
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+    <script>
+      var FIREBASE_DB_URL = "{FIREBASE_DB_URL}";
+      var NODE_PATH = "{NODE_PATH}";
+ 
+      var params = {{
+        appName: "classic",
+        width: 680,
+        height: 440,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: false,
+        showResetIcon: true,
+        enableRightClick: true,
+        errorDialogsActive: false,
+        useBrowserForJS: true
+      }};
+ 
+      window.addEventListener("load", function(){{
+        var applet = new GGBApplet(params, true);
+        applet.inject("ggb-element");
+      }});
+ 
+      function isFirebaseConfigured(){{
+        return FIREBASE_DB_URL.indexOf("NAMA-PROYEK-ANDA") === -1;
+      }}
+ 
+      document.getElementById("save-btn").addEventListener("click", function(){{
+        var statusEl = document.getElementById("status");
+        var nama = document.getElementById("nama-input").value.trim() || "Anonim";
+ 
+        if(!window.ggbApplet){{
+          statusEl.textContent = "⏳ GeoGebra belum selesai dimuat, coba lagi sebentar.";
+          return;
+        }}
+        if(!isFirebaseConfigured()){{
+          statusEl.textContent = "⚠️ Firebase belum dikonfigurasi (lihat Panduan Setup di bawah aplikasi Streamlit).";
+          return;
+        }}
+ 
+        statusEl.textContent = "Mengambil gambar dari GeoGebra…";
+        var base64Png;
+        try {{
+          // scale=1, transparent=false, dpi=72 -- cukup untuk pratinjau galeri
+          base64Png = window.ggbApplet.getPNGBase64(1, false, 72);
+        }} catch(err) {{
+          statusEl.textContent = "Gagal mengambil gambar: " + err;
+          return;
+        }}
+ 
+        statusEl.textContent = "Mengunggah ke Firebase…";
+        fetch(FIREBASE_DB_URL + "/" + NODE_PATH + ".json", {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: JSON.stringify({{
+            nama: nama,
+            gambar: base64Png,
+            waktu: new Date().toLocaleString("id-ID", {{
+              day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+            }})
+          }})
+        }})
+        .then(function(r){{ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); }})
+        .then(function(){{
+          statusEl.textContent = "✅ Tersimpan! Klik \\"Refresh Galeri\\" di panel kanan Streamlit untuk melihatnya.";
+        }})
+        .catch(function(err){{
+          statusEl.textContent = "❌ Gagal menyimpan ke Firebase: " + err;
+        }});
+      }});
+    </script>
+    """
+ 
+            st.components.v1.html(geogebra_html, height=620, scrolling=True)
+ 
+            # ----------------------------------------------------------------------
+        # Kolom kanan: galeri -- Streamlit (Python) membaca ulang data dari
+        # Firebase lewat REST API biasa (requests.get), lalu menampilkannya.
+        # ----------------------------------------------------------------------
+        with col_gallery:
+            st.subheader("2. Galeri Gambar Tersimpan")
+ 
+            if st.button("🔄 Refresh Galeri"):
+                st.rerun()
+ 
+            def is_configured() -> bool:
+                return "NAMA-PROYEK-ANDA" not in FIREBASE_DB_URL
+ 
+            if not is_configured():
+                st.warning('Firebase belum dikonfigurasi. Buka "Panduan Setup Firebase" di bawah halaman ini.')
+            else:
+                try:
+                    resp = requests.get(f"{FIREBASE_DB_URL}/{NODE_PATH}.json", timeout=10)
+                    resp.raise_for_status()
+                    data = resp.json()
+                except Exception as e:
+                    data = None
+                    st.error(f"Gagal memuat galeri dari Firebase: {e}")
+ 
+                if data:
+                    items = [v for v in data.values() if isinstance(v, dict) and v.get("gambar")]
+                    items.sort(key=lambda x: x.get("waktu", ""), reverse=True)
+                    if not items:
+                        st.info("Belum ada gambar tersimpan.")
+                    for item in items:
+                        try:
+                            img_bytes = base64.b64decode(item["gambar"])
+                            st.image(img_bytes, caption=f"{item.get('nama', 'Anonim')} · {item.get('waktu', '')}")
+                        except Exception:
+                            st.caption("(Satu entri gagal ditampilkan -- data gambar tidak valid.)")
+                elif is_configured():
+                    st.info("Belum ada gambar tersimpan. Buat konstruksi di sebelah kiri lalu simpan.")
+
 #==============
 
 if st.session_state["kumpulan"]["kover"]:
@@ -447,47 +678,54 @@ if st.session_state["kumpulan"]["pertemuan4"]:
     modul4()
 if st.session_state["kumpulan"]["pertemuan5"]:
     modul5()
+if st.session_state["kumpulan"]["pertemuan6"]:
+    modul6()
 if st.session_state["kumpulan"]["diskusian"]:
     diskusi()
+
 
 #==============
 
 
 if st.sidebar.button("Latar"):
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("RPS dan Referensi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Test Diagnosa"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 1"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 2"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 3"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 4"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":True,"pertemuan5":False,"diskusian":False}
+                                    "pertemuan4":True,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 5"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":True,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":True,"pertemuan6":False,"diskusian":False}
+    st.rerun()
+if st.sidebar.button("Pertemuan 6"):
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":True,"diskusian":False}
     st.rerun()
 st.sidebar.markdown("---")
 if st.sidebar.button("Forum Diskusi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"diskusian":True}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":True}
     st.rerun()
 
