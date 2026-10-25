@@ -30,7 +30,7 @@ st.components.v1.html(tulisan_html,height=200)
 
 if "kumpulan" not in st.session_state:
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
 
 #=============
 
@@ -660,6 +660,26 @@ def modul6():
                 elif is_configured():
                     st.info("Belum ada gambar tersimpan. Buat konstruksi di sebelah kiri lalu simpan.")
 
+def modul7():
+    menu = st.tabs(['Modul','Video','Diskusi dengan Geogebra'])
+    with menu[0]:
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/modulp7.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+    with menu[1]:
+        st.title("Luas Segitiga")
+        st.video("https://youtu.be/ABCMRSYRBys")
+    with menu[2]:
+        st.write('https://martin-bernard26.github.io/trigonometri2026/diskusi7.html')
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/diskusi7.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+
+
 #==============
 
 if st.session_state["kumpulan"]["kover"]:
@@ -680,6 +700,8 @@ if st.session_state["kumpulan"]["pertemuan5"]:
     modul5()
 if st.session_state["kumpulan"]["pertemuan6"]:
     modul6()
+if st.session_state["kumpulan"]["pertemuan7"]:
+    modul7()
 if st.session_state["kumpulan"]["diskusian"]:
     diskusi()
 
@@ -689,43 +711,47 @@ if st.session_state["kumpulan"]["diskusian"]:
 
 if st.sidebar.button("Latar"):
     st.session_state["kumpulan"] = {"kover":True,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("RPS dan Referensi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":True,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Test Diagnosa"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":True,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 1"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":True, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 2"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":True, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 3"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":True,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 4"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":True,"pertemuan5":False,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":True,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 5"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":True,"pertemuan6":False,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":True,"pertemuan6":False,"pertemuan7":False,"diskusian":False}
     st.rerun()
 if st.sidebar.button("Pertemuan 6"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":True,"diskusian":False}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":True,"pertemuan7":False,"diskusian":False}
+    st.rerun()
+if st.sidebar.button("Pertemuan 7"):
+    st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":True,"diskusian":False}
     st.rerun()
 st.sidebar.markdown("---")
 if st.sidebar.button("Forum Diskusi"):
     st.session_state["kumpulan"] = {"kover":False,"referensi":False,"diagnosa":False,"pertemuan1":False, "pertemuan2":False, "pertemuan3":False,
-                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"diskusian":True}
+                                    "pertemuan4":False,"pertemuan5":False,"pertemuan6":False,"pertemuan7":False,"diskusian":True}
     st.rerun()
 
