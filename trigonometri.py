@@ -672,12 +672,153 @@ def modul7():
         st.title("Luas Segitiga")
         st.video("https://youtu.be/ABCMRSYRBys")
     with menu[2]:
-        st.write('https://martin-bernard26.github.io/trigonometri2026/diskusi7.html')
-        tulisan_html1='''
-        <iframe src="https://martin-bernard26.github.io/trigonometri2026/diskusi7.html" width="100%" height="1500">
-        </iframe>
-        '''
-        st.components.v1.html(tulisan_html1,height=1500)
+        st.title("GeoGebra 🔗 Firebase Tanpa Kredensial (REST API) 🌍")
+        FIREBASE_DB_URL = "https://diskusimatematika-7a30c-default-rtdb.firebaseio.com"
+        NODE_PATH = "luas-segitiga/posts"
+ 
+        st.title("📐 GeoGebra + Firebase Gallery")
+        st.caption("Program Studi Pendidikan Matematika — IKIP Siliwangi")
+        st.write(
+    "Buat konstruksi apa saja di applet GeoGebra di sebelah kiri, simpan "
+    "gambarnya ke Firebase, lalu lihat hasilnya muncul di galeri sebelah kanan."
+        )
+ 
+        col_ggb, col_gallery = st.columns([1.3, 1])
+ 
+        # ----------------------------------------------------------------------
+        # Kolom kiri: applet GeoGebra + tombol simpan (semuanya jalan di browser,
+        # mengirim langsung ke Firebase lewat fetch() -- tidak lewat Python).
+        # ----------------------------------------------------------------------
+        with col_ggb:
+            st.subheader("1. Buat Konstruksi")
+            st.caption('Gambar apa saja, lalu isi nama Anda dan klik "Simpan Gambar ke Firebase".')
+ 
+            geogebra_html = f"""
+    <div id="ggb-element"></div>
+    <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <input id="nama-input" type="text" placeholder="Nama Anda"
+             style="flex:1; min-width:160px; padding:9px 11px; border:1px solid #ccc;
+                    border-radius:8px; font-family:sans-serif; font-size:14px;">
+      <button id="save-btn"
+              style="padding:10px 18px; border:none; border-radius:8px; background:#2A4494;
+                     color:#fff; font-weight:600; font-family:sans-serif; font-size:14px; cursor:pointer;">
+        💾 Simpan Gambar ke Firebase
+      </button>
+    </div>
+    <div id="status" style="margin-top:8px; font-family:sans-serif; font-size:13px; color:#555;"></div>
+ 
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+    <script>
+      var FIREBASE_DB_URL = "{FIREBASE_DB_URL}";
+      var NODE_PATH = "{NODE_PATH}";
+ 
+      var params = {{
+        appName: "classic",
+        width: 680,
+        height: 440,
+        showToolBar: true,
+        showAlgebraInput: true,
+        showMenuBar: false,
+        showResetIcon: true,
+        enableRightClick: true,
+        errorDialogsActive: false,
+        useBrowserForJS: true
+      }};
+ 
+      window.addEventListener("load", function(){{
+        var applet = new GGBApplet(params, true);
+        applet.inject("ggb-element");
+      }});
+ 
+      function isFirebaseConfigured(){{
+        return FIREBASE_DB_URL.indexOf("NAMA-PROYEK-ANDA") === -1;
+      }}
+ 
+      document.getElementById("save-btn").addEventListener("click", function(){{
+        var statusEl = document.getElementById("status");
+        var nama = document.getElementById("nama-input").value.trim() || "Anonim";
+ 
+        if(!window.ggbApplet){{
+          statusEl.textContent = "⏳ GeoGebra belum selesai dimuat, coba lagi sebentar.";
+          return;
+        }}
+        if(!isFirebaseConfigured()){{
+          statusEl.textContent = "⚠️ Firebase belum dikonfigurasi (lihat Panduan Setup di bawah aplikasi Streamlit).";
+          return;
+        }}
+ 
+        statusEl.textContent = "Mengambil gambar dari GeoGebra…";
+        var base64Png;
+        try {{
+          // scale=1, transparent=false, dpi=72 -- cukup untuk pratinjau galeri
+          base64Png = window.ggbApplet.getPNGBase64(1, false, 72);
+        }} catch(err) {{
+          statusEl.textContent = "Gagal mengambil gambar: " + err;
+          return;
+        }}
+ 
+        statusEl.textContent = "Mengunggah ke Firebase…";
+        fetch(FIREBASE_DB_URL + "/" + NODE_PATH + ".json", {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: JSON.stringify({{
+            nama: nama,
+            gambar: base64Png,
+            waktu: new Date().toLocaleString("id-ID", {{
+              day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+            }})
+          }})
+        }})
+        .then(function(r){{ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); }})
+        .then(function(){{
+          statusEl.textContent = "✅ Tersimpan! Klik \\"Refresh Galeri\\" di panel kanan Streamlit untuk melihatnya.";
+        }})
+        .catch(function(err){{
+          statusEl.textContent = "❌ Gagal menyimpan ke Firebase: " + err;
+        }});
+      }});
+    </script>
+    """
+ 
+            st.components.v1.html(geogebra_html, height=620, scrolling=True)
+ 
+            # ----------------------------------------------------------------------
+        # Kolom kanan: galeri -- Streamlit (Python) membaca ulang data dari
+        # Firebase lewat REST API biasa (requests.get), lalu menampilkannya.
+        # ----------------------------------------------------------------------
+        with col_gallery:
+            st.subheader("2. Galeri Gambar Tersimpan")
+ 
+            if st.button("🔄 Refresh Galeri"):
+                st.rerun()
+ 
+            def is_configured() -> bool:
+                return "NAMA-PROYEK-ANDA" not in FIREBASE_DB_URL
+ 
+            if not is_configured():
+                st.warning('Firebase belum dikonfigurasi. Buka "Panduan Setup Firebase" di bawah halaman ini.')
+            else:
+                try:
+                    resp = requests.get(f"{FIREBASE_DB_URL}/{NODE_PATH}.json", timeout=10)
+                    resp.raise_for_status()
+                    data = resp.json()
+                except Exception as e:
+                    data = None
+                    st.error(f"Gagal memuat galeri dari Firebase: {e}")
+ 
+                if data:
+                    items = [v for v in data.values() if isinstance(v, dict) and v.get("gambar")]
+                    items.sort(key=lambda x: x.get("waktu", ""), reverse=True)
+                    if not items:
+                        st.info("Belum ada gambar tersimpan.")
+                    for item in items:
+                        try:
+                            img_bytes = base64.b64decode(item["gambar"])
+                            st.image(img_bytes, caption=f"{item.get('nama', 'Anonim')} · {item.get('waktu', '')}")
+                        except Exception:
+                            st.caption("(Satu entri gagal ditampilkan -- data gambar tidak valid.)")
+                elif is_configured():
+                    st.info("Belum ada gambar tersimpan. Buat konstruksi di sebelah kiri lalu simpan.")
 
 
 #==============
