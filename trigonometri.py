@@ -661,7 +661,7 @@ def modul6():
                     st.info("Belum ada gambar tersimpan. Buat konstruksi di sebelah kiri lalu simpan.")
 
 def modul7():
-    menu = st.tabs(['Modul','Video','Diskusi dengan Geogebra'])
+    menu = st.tabs(['Modul','Video','Diskusi dengan Geogebra','Blockly','Soal HOTS'])
     with menu[0]:
         tulisan_html1='''
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/modulp7.html" width="100%" height="1500">
@@ -671,6 +671,8 @@ def modul7():
     with menu[1]:
         st.title("Luas Segitiga")
         st.video("https://youtu.be/ABCMRSYRBys")
+        st.title("Pembuktian Luas Segitiga Heron")
+        st.video("https://youtu.be/6p5TAGenu0Y")
     with menu[2]:
         st.title("GeoGebra 🔗 Firebase Tanpa Kredensial (REST API) 🌍")
         FIREBASE_DB_URL = "https://diskusimatematika-7a30c-default-rtdb.firebaseio.com"
@@ -819,6 +821,53 @@ def modul7():
                             st.caption("(Satu entri gagal ditampilkan -- data gambar tidak valid.)")
                 elif is_configured():
                     st.info("Belum ada gambar tersimpan. Buat konstruksi di sebelah kiri lalu simpan.")
+    with menu[3]:
+        st.title("Blockly + GeoGebra di Streamlit")
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/blockgeo.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.write('Referensi Command Prompt Geogebra')
+        tulisan_html2='''
+        <iframe src="https://drive.google.com/file/d/12iYwZiUOI4SUg7WoVL322Z0mTyNBdMsN/preview" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html2,height=1500)
+    with menu[4]:
+        st.title('Soal HOTS')
+        tulisan_html1='''
+        <iframe src="https://martin-bernard26.github.io/trigonometri2026/hots7.html" width="100%" height="1500">
+        </iframe>
+        '''
+        st.components.v1.html(tulisan_html1,height=1500)
+        st.title("Masukan Tugas Mahasiswa")
+        st.write("Isi identitas kemudian berikan masukan")
+        GF_url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSebN21RYEN8rEG-zCHiK0fRVL9iJrmIVDcQZV-B4CO-SoJ7Mw/formResponse'
+        with st.form(key='form_masukan2',clear_on_submit=True):
+            nama = st.text_input("Nama Lengkap",key='nama2')
+            nim = st.text_input("NIM (Nomor Induk Mahasiswa)",key='nim2')
+            masukan = st.text_input("tugas berdasarkan alamat link Anda",key='tugas1')
+            submit_button = st.form_submit_button(label="Kirim Masukan")
+        if submit_button:
+            if nama.strip() == "" or nim.strip() == "" or masukan.strip()=="":
+                st.error("Semua kolom harus diisi")
+            else:
+                payload = {
+                    'entry.659103726':nama,
+                    'entry.888075117':nim,
+                    'entry.1481689881':masukan
+                }
+                try:
+                    response = requests.post(GF_url,data=payload,timeout=10)
+                    if response.status_code == 200:
+                        st.success("Terima kasuh!")
+                    else:
+                        st.error("Gagal menyimpan data")
+                        st.write(response.text)
+                except Exception as e:
+                    st.error(f"terjadi kesalahan koneksi: {e}")
+        
 
 
 #==============
