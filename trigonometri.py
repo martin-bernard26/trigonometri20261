@@ -430,7 +430,7 @@ def modul5():
         ''')
 
 def modul6():
-    menu = st.tabs(['Modul','Latihan','Tugas HOTS','Pembahasan'])
+    menu = st.tabs(['Modul','Video','Latihan','Tugas HOTS','Pembahasan'])
     with menu[0]:
         tulisan_html1='''
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/aturantrig.html" width="100%" height="1500">
@@ -438,6 +438,11 @@ def modul6():
         '''
         st.components.v1.html(tulisan_html1,height=1500)
     with menu[1]:
+        st.title("Aturan Sinus")
+        st.video("https://youtu.be/9x0OhiY_ol8")
+        st.title("Aturan Cosinus")
+        st.video("https://youtu.be/kSseDkaSPXg")
+    with menu[2]:
         tulisan_html1='''
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan6.html" width="100%" height="1500">
         </iframe>
@@ -479,7 +484,7 @@ def modul6():
         </iframe>
         '''
         st.components.v1.html(tulisan_html1,height=1500)
-    with menu[2]:
+    with menu[3]:
         tulisan_html1='''
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/hots6.html" width="100%" height="1500">
         </iframe>
@@ -511,7 +516,7 @@ def modul6():
                         st.write(response.text)
                 except Exception as e:
                     st.error(f"terjadi kesalahan koneksi: {e}")
-    with menu[3]:
+    with menu[4]:
         st.title("GeoGebra 🔗 Firebase Tanpa Kredensial (REST API) 🌍")
         FIREBASE_DB_URL = "https://diskusimatematika-7a30c-default-rtdb.firebaseio.com"
         NODE_PATH = "gambar_geogebra"
