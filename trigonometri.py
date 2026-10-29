@@ -282,7 +282,7 @@ def modul3():
         st.components.v1.html(tulisan_html1,height=1500)
     
 def modul4():
-    menu = st.tabs(['Modul','Latihan'])
+    menu = st.tabs(['Modul','Video','Latihan'])
     with menu[0]:
         tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/pertemuan4.html" width="100%" height="1500">
@@ -290,13 +290,16 @@ def modul4():
     '''
         st.components.v1.html(tulisan_html1,height=1500)
     with menu[1]:
+        st.title("Grafik Trigonometri")
+        st.video("https://youtu.be/58hNKcyVZGk")
+    with menu[2]:
         tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/latihan4.html" width="100%" height="1500">
     </iframe>
     '''
         st.components.v1.html(tulisan_html1,height=1500)
 def modul5():
-    menu = st.tabs(['Modul','Diskusi','Soal Tantangan','Latihan','Pembahasan'])
+    menu = st.tabs(['Modul','Video','Diskusi','Soal Tantangan','Latihan','Pembahasan'])
     with menu[0]:
         tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/pertemuan5.html" width="100%" height="1500">
@@ -304,6 +307,9 @@ def modul5():
     '''
         st.components.v1.html(tulisan_html1,height=1500)
     with menu[1]:
+        st.title('Rumus-rumus Identitas Trigonometri')
+        st.video('https://youtu.be/rnqzet_kPNw')
+    with menu[2]:
         tulisan_html1='''
     <iframe src="https://martin-bernard26.github.io/trigonometri2026/diskusi5.html" width="100%" height="1500">
     </iframe>
