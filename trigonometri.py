@@ -910,7 +910,7 @@ def modul9():
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/hots9.html" width="100%" height="1500">
         </iframe>
         '''
-        st.components.v1.html(tulisan_html1,height=1000)
+        st.components.v1.html(tulisan_html1,height=1500)
         st.title("Masukan Tugas Mahasiswa")
         st.write("Isi identitas kemudian berikan masukan")
         GF_url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSf0v33gkZUP_RMVHuLEJkI5hOblcZDfhtq6ikxpVdzCkmVMaw/formResponse'
