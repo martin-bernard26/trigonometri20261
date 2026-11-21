@@ -911,6 +911,32 @@ def modul9():
         </iframe>
         '''
         st.components.v1.html(tulisan_html1,height=1000)
+        st.title("Masukan Tugas Mahasiswa")
+        st.write("Isi identitas kemudian berikan masukan")
+        GF_url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSf0v33gkZUP_RMVHuLEJkI5hOblcZDfhtq6ikxpVdzCkmVMaw/formResponse'
+        with st.form(key='form_masukan2',clear_on_submit=True):
+            nama = st.text_input("Nama Lengkap",key='nama3')
+            nim = st.text_input("NIM (Nomor Induk Mahasiswa)",key='nim3')
+            masukan = st.text_input("tugas berdasarkan alamat link Anda",key='tugas3')
+            submit_button = st.form_submit_button(label="Kirim Masukan")
+        if submit_button:
+            if nama.strip() == "" or nim.strip() == "" or masukan.strip()=="":
+                st.error("Semua kolom harus diisi")
+            else:
+                payload = {
+                    'entry.767961881':nama,
+                    'entry.483776842':nim,
+                    'entry.544170272':masukan
+                }
+                try:
+                    response = requests.post(GF_url,data=payload,timeout=10)
+                    if response.status_code == 200:
+                        st.success("Terima kasih!")
+                    else:
+                        st.error("Gagal menyimpan data")
+                        st.write(response.text)
+                except Exception as e:
+                    st.error(f"terjadi kesalahan koneksi: {e}")
     with menu[3]:
         tulisan_html1='''
         <iframe src="https://martin-bernard26.github.io/trigonometri2026/trigpy.html" width="100%" height="1500">
